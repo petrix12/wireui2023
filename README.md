@@ -65,7 +65,7 @@
     + $ php artisan vendor:publish --tag='wireui.config'
     + $ php artisan vendor:publish --tag='wireui.resources'
     + $ php artisan vendor:publish --tag='wireui.lang'
-9. Modificar la vista **resources\views\auth\register.blade.php**:
+9. Modificar las vista **resources\views\auth\register.blade.php** y **resources\views\auth\login.blade.php**:
     + Cambiar el el atributo **value** por **label** en los componentes **<x-label />**.
     + En el botón de registro indicar que es de tipo submit.
 10. Instalar dependencia para la traducción del proyecto:
@@ -80,8 +80,74 @@
     ```
 
 
-## PARTE II:
-1. Crear componente Alert:
+## PARTE II: Creación de componentes de clases y anonimos
++ **Documentación**: https://v1.tailwindcss.com/components/alerts
+1. Crear componente de clase Alert:
     + $ php artisan make:component Alert
-2. mmm
+2. Diseñar vista del componente **resources\views\components\alert.blade.php**:
+    ```php
+    {{-- @props(['type' => 'success'])
+    @php
+        switch ($type) {
+            case 'success':
+                $clases = 'bg-green-100 border border-green-400 text-green-700';
+                $classIcon = 'text-green-500';
+                break;
+            case 'error':
+                $clases = 'bg-red-100 border border-red-400 text-red-700';
+                $classIcon = 'text-red-500';
+                break;
+            default:
+                $clases = 'bg-blue-100 border border-blue-400 text-blue-700';
+                $classIcon = 'text-blue-500';
+                break;
+        }
+    @endphp --}}
+
+    <div class="{{ $clases }} px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">{{ $title }}</strong>
+        <span class="block sm:inline">
+            {{ $slot }}
+        </span>
+        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+            <svg class="fill-current h-6 w-6 {{ $classIcon }}" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+        </span>
+    </div>    
+    ```
+3. Programar el controlador del componente **app\View\Components\Alert.php**:
+    ```php
+    // ...
+    class Alert extends Component
+    {
+        public $clases;
+        public $classIcon;
+        /**
+        * Create a new component instance.
+        */
+        public function __construct($type = 'success')
+        {
+            switch ($type) {
+                case 'success':
+                    $this->clases = 'bg-green-100 border border-green-400 text-green-700';
+                    $this->classIcon = 'text-green-500';
+                    break;
+                case 'error':
+                    $this->clases = 'bg-red-100 border border-red-400 text-red-700';
+                    $this->classIcon = 'text-red-500';
+                    break;
+                default:
+                    $this->clases = 'bg-blue-100 border border-blue-400 text-blue-700';
+                    $this->classIcon = 'text-blue-500';
+                    break;
+            }
+        }
+        // ...
+    }
+    ```
+4. Crear componente anonimo **resources\views\components\container.blade.php**:
+    ```php
+    
+    ```
+5. Modificar vista **resources\views\dashboard.blade.php** para probar el componente:
+6. mmm
 
